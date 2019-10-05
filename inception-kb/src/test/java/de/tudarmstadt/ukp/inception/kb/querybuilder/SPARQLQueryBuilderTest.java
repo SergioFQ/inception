@@ -797,7 +797,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelContainingAnyOf_Virtuoso_withLanguage_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_Virtuoso_withLanguage_FTS() 
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -815,7 +815,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelContainingAnyOf_Wikidata_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_Wikidata_FTS() 
     {
         assertIsReachable(wikidata);
         
@@ -834,7 +834,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelContainingAnyOf_Fuseki_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_Fuseki_FTS()
     {
         assertIsReachable(zbwGnd);
         
@@ -855,7 +855,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelContainingAnyOf_classes_HUCIT_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_classes_HUCIT_FTS() 
     {
         assertIsReachable(hucit);
         
@@ -1154,7 +1154,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_Wikidata_FTS() throws Exception
+    public void testWithLabelStartingWith_Wikidata_FTS() 
     {
         assertIsReachable(wikidata);
         
@@ -1193,7 +1193,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_Fuseki_noFTS_STW() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_Fuseki_noFTS_STW() 
     {
         assertIsReachable(zbwStw);
         
@@ -1211,7 +1211,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_Fuseki_FTS_GND() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_Fuseki_FTS_GND() 
     {
         assertIsReachable(zbwGnd);
         
@@ -1252,7 +1252,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_Wikidata_FTS() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_Wikidata_FTS()
     {
         assertIsReachable(wikidata);
         
@@ -1271,7 +1271,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_multiple_Wikidata_FTS() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_multiple_Wikidata_FTS() 
     {
         assertIsReachable(wikidata);
         
@@ -1290,7 +1290,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_Virtuoso_withLanguage_FTS() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_Virtuoso_withLanguage_FTS() 
     {
         assertIsReachable(ukpVirtuosoRepo);
         
