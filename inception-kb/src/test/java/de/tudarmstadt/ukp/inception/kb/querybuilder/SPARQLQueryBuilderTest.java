@@ -47,10 +47,12 @@ import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SKOS;
+import org.eclipse.rdf4j.query.MalformedQueryException;
 import org.eclipse.rdf4j.query.TupleQuery;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -529,7 +531,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void thatNonRootClassCanBeUsedAsExplicitRootClass() throws Exception
+    public void thatNonRootClassCanBeUsedAsExplicitRootClass() throws MalformedQueryException, IOException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_CLASS_RDFS_HIERARCHY);
 
@@ -548,7 +550,7 @@ public class SPARQLQueryBuilderTest
                 .containsExactlyInAnyOrder("implicitRoot", "subclass2");
     }
     @Test
-    public void thatQueryLimitedToClassesDoesNotReturnInstances() throws Exception
+    public void thatQueryLimitedToClassesDoesNotReturnInstances() throws MalformedQueryException, IOException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_CLASS_RDFS_HIERARCHY);
 
@@ -636,7 +638,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void thatInstanceQueryLimitedToParentsDoesNotReturnOutOfScopeResults() throws Exception
+    public void thatInstanceQueryLimitedToParentsDoesNotReturnOutOfScopeResults() throws MalformedQueryException, IOException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_CLASS_RDFS_HIERARCHY);
     
@@ -739,7 +741,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelContainingAnyOf_RDF4J_withLanguage_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_RDF4J_withLanguage_FTS() throws MalformedQueryException, IOException, RepositoryException
     {
         kb.setFullTextSearchIri(IriConstants.FTS_LUCENE);
         
@@ -747,7 +749,7 @@ public class SPARQLQueryBuilderTest
     }
     
     public void __testWithLabelContainingAnyOf_withLanguage(Repository aRepository)
-        throws Exception
+        throws MalformedQueryException, IOException, RepositoryException
     {
         importDataFromString(TURTLE, TURTLE_PREFIX, DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
 
@@ -768,7 +770,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelContainingAnyOf_Virtuoso_withLanguage_FTS() throws Exception
+    public void testWithLabelContainingAnyOf_Virtuoso_withLanguage_FTS() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -860,7 +862,7 @@ public class SPARQLQueryBuilderTest
     }
 
     public void __testWithLabelMatchingExactlyAnyOf_withLanguage(Repository aRepository)
-        throws Exception
+        throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX,
                 DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
@@ -891,7 +893,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelMatchingExactlyAnyOf_RDF4J_subproperty_FTS() throws Exception
+    public void testWithLabelMatchingExactlyAnyOf_RDF4J_subproperty_FTS() throws IOException, MalformedQueryException, RepositoryException
     {
         kb.setFullTextSearchIri(IriConstants.FTS_LUCENE);
         kb.setSubPropertyIri(RDFS.SUBPROPERTYOF);
@@ -901,7 +903,7 @@ public class SPARQLQueryBuilderTest
     }
     
     public void __testWithLabelMatchingExactlyAnyOf_RDF4J_subproperty(Repository aRepository)
-        throws Exception
+        throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, LABEL_SUBPROPERTY);
         
@@ -921,7 +923,7 @@ public class SPARQLQueryBuilderTest
     }    
         
     @Test
-    public void testWithLabelStartingWith_RDF4J_withoutLanguage_noFTS() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withoutLanguage_noFTS() throws IOException, MalformedQueryException, RepositoryException
     {
         kb.setFullTextSearchIri(null);
         
@@ -929,14 +931,14 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_RDF4J_withoutLanguage_FTS() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withoutLanguage_FTS() throws IOException, MalformedQueryException, RepositoryException
     {
         kb.setFullTextSearchIri(IriConstants.FTS_LUCENE);
         
         __testWithLabelStartingWith_RDF4J_withoutLanguage();
     }
 
-    public void __testWithLabelStartingWith_RDF4J_withoutLanguage() throws Exception
+    public void __testWithLabelStartingWith_RDF4J_withoutLanguage() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_LABELS_WITHOUT_LANGUAGE);
     
@@ -955,7 +957,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_RDF4J_withLanguage_noFTS() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withLanguage_noFTS() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
 
@@ -977,7 +979,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_1() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_1() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
 
@@ -1001,7 +1003,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_2() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_2() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
 
@@ -1025,7 +1027,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_3() throws Exception
+    public void testWithLabelStartingWith_RDF4J_withLanguage_FTS_3() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX,
                 DATA_LABELS_AND_DESCRIPTIONS_WITH_LANGUAGE);
@@ -1043,7 +1045,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_1() throws Exception
+    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_1() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -1063,7 +1065,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_2() throws Exception
+    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_2() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -1084,7 +1086,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_3() throws Exception
+    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_3() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -1105,7 +1107,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_4() throws Exception
+    public void testWithLabelStartingWith_Virtuoso_withLanguage_FTS_4() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(ukpVirtuosoRepo);
         
@@ -1125,7 +1127,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_Wikidata_FTS() throws Exception
+    public void testWithLabelStartingWith_Wikidata_FTS() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(wikidata);
         
@@ -1140,11 +1142,11 @@ public class SPARQLQueryBuilderTest
         assertThat(results).extracting(KBHandle::getIdentifier).doesNotHaveDuplicates();
         assertThat(results).isNotEmpty();
         assertThat(results).extracting(KBHandle::getUiLabel)
-                .allMatch(label -> label.toLowerCase().startsWith("barack"));
+                .allMatch(label -> label.toLowerCase().startsWith("barack"));S
     }
 
     @Test
-    public void testWithLabelStartingWith_Fuseki_FTS() throws Exception
+    public void testWithLabelStartingWith_Fuseki_FTS() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(zbwGnd);
         
@@ -1297,7 +1299,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_onlyDescendants_HUCIT_noFTS() throws Exception
+    public void testWithLabelStartingWith_onlyDescendants_HUCIT_noFTS() throws MalformedQueryException, RepositoryException
     {
         assertIsReachable(hucit);
         
@@ -1316,7 +1318,7 @@ public class SPARQLQueryBuilderTest
     }
 
     @Test
-    public void testWithLabelStartingWith_OLIA_FTS() throws Exception
+    public void testWithLabelStartingWith_OLIA_FTS() throws MalformedQueryException, IOException, RepositoryException
     {
         ValueFactory vf = SimpleValueFactory.getInstance();
         
@@ -1463,7 +1465,7 @@ public class SPARQLQueryBuilderTest
     }
     
     @Test
-    public void thatRootsCanBeRetrieved_RDF4J_ontolex() throws Exception
+    public void thatRootsCanBeRetrieved_RDF4J_ontolex() throws IOException, MalformedQueryException, RepositoryException
     {
         importDataFromFile("src/test/resources/data/wordnet-ontolex-ontology.owl");
         
