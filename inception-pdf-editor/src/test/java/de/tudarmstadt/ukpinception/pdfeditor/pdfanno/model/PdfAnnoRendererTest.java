@@ -27,9 +27,7 @@ import static org.assertj.core.api.Assertions.contentOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,12 +183,9 @@ public class PdfAnnoRendererTest
             .isEqualToNormalizingNewlines(contentOf(
                     new File("src/test/resources/rendererTestAnnoFile.anno"), UTF_8));
     }
-
-    /**
-     * Tests if given offsets for PDFAnno can be converted to offsets for the document in INCEpTION
-     */
+    
     @Test
-    public void testConvertToDocumentOffset() throws Exception
+    public void testConvertToDocumentOffset() throws ResourceInitializationException, CASException, CollectionException, IOException 
     {
         String file = "src/test/resources/tcf04-karin-wl.xml";
         String pdftxt = new Scanner(
