@@ -170,7 +170,7 @@ public class DataMajorityNerRecommenderTest
     }
     
     @Test
-    public void thatEvaluationWithNoClassesWorks() throws Exception
+    public void thatEvaluationWithNoClassesWorks() throws IOException, UIMAException, RecommendationException 
     {
         DataSplitter splitStrategy = new PercentageBasedSplitter(0.8, 10);
         DataMajorityNerRecommender sut = new DataMajorityNerRecommender(recommender);
@@ -184,7 +184,7 @@ public class DataMajorityNerRecommenderTest
         assertThat(score).isBetween(0.0, 1.0);
     }
 
-    private CAS getTestCasNoLabelLabels() throws Exception
+    private CAS getTestCasNoLabelLabels() throws IOException, UIMAException
     {
         Dataset ds = loader.load("germeval2014-de", CONTINUE);
         CAS cas = loadData(ds, ds.getDataFiles()[0]).get(0);
