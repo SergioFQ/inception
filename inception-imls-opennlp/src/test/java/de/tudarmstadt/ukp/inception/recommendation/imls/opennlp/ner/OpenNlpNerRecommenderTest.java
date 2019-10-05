@@ -21,7 +21,6 @@ import static java.util.Arrays.asList;
 import static org.apache.uima.fit.factory.CollectionReaderFactory.createReader;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.dkpro.core.api.datasets.DatasetValidationPolicy.CONTINUE;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.EvaluationResu
 import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.IncrementalSplitter;
 import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.PercentageBasedSplitter;
 import de.tudarmstadt.ukp.inception.recommendation.api.model.Recommender;
+import de.tudarmstadt.ukp.inception.recommendation.api.recommender.RecommendationException;
 import de.tudarmstadt.ukp.inception.recommendation.api.recommender.RecommenderContext;
 import de.tudarmstadt.ukp.inception.support.test.recommendation.RecommenderTestHelper;
 
@@ -130,7 +130,7 @@ public class OpenNlpNerRecommenderTest
     }
 
     @Test
-    public void thatIncrementalNerEvaluationWorks() throws Exception
+    public void thatIncrementalNerEvaluationWorks() throws IOException, UIMAException, RecommendationException 
     {
         IncrementalSplitter splitStrategy = new IncrementalSplitter(0.8, 250, 10);
         OpenNlpNerRecommender sut = new OpenNlpNerRecommender(recommender, traits);
