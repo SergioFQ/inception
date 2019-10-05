@@ -46,8 +46,8 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,7 +66,7 @@ import de.tudarmstadt.ukp.inception.recommendation.api.model.Recommender;
 import de.tudarmstadt.ukp.inception.scheduling.SchedulingService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = SpringConfig.class)
+@ContextConfiguration(classes = SpringConfig.class)
 @Transactional
 @DataJpaTest
 public class RecommendationServiceImplIntegrationTest
@@ -91,7 +91,7 @@ public class RecommendationServiceImplIntegrationTest
     private AnnotationFeature feature;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         sut = new RecommendationServiceImpl(sessionRegistry, userRepository,
                 recommenderFactoryRegistry, schedulingService, annoService, documentService,
@@ -108,7 +108,7 @@ public class RecommendationServiceImplIntegrationTest
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         testEntityManager.clear();
     }
