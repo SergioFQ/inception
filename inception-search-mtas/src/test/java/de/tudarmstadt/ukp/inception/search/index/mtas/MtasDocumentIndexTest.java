@@ -22,16 +22,15 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import de.tudarmstadt.ukp.inception.search.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasBuilder;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
@@ -85,6 +84,13 @@ import de.tudarmstadt.ukp.clarin.webanno.curation.storage.CurationDocumentServic
 import de.tudarmstadt.ukp.clarin.webanno.curation.storage.CurationDocumentServiceImpl;
 import de.tudarmstadt.ukp.clarin.webanno.model.AnnotationDocument;
 import de.tudarmstadt.ukp.clarin.webanno.model.Project;
+
+
+
+
+
+
+
 import de.tudarmstadt.ukp.clarin.webanno.model.SourceDocument;
 import de.tudarmstadt.ukp.clarin.webanno.project.ProjectServiceImpl;
 import de.tudarmstadt.ukp.clarin.webanno.security.UserDao;
@@ -140,15 +146,15 @@ public class MtasDocumentIndexTest
         }
     }
 
-    private void createProject(Project aProject) throws Exception
+    private void createProject(Project aProject) throws IOException 
     {
         projectService.createProject(aProject);
         annotationSchemaService.initializeProject(aProject);
     }
 
     @SafeVarargs
-    private final void uploadDocument(Pair<SourceDocument, String>... aDocuments)
-        throws Exception
+    private final void uploadDocument(Pair<SourceDocument, String>... aDocuments) 
+    		throws IOException, UIMAException   
     {
         Project project = null;
         for (Pair<SourceDocument, String> doc : aDocuments) {
