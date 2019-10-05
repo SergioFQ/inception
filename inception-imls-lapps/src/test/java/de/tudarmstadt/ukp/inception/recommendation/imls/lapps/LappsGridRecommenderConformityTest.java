@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import de.tudarmstadt.ukp.inception.recommendation.api.recommender.RecommendationException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionReader;
@@ -66,8 +67,7 @@ public class LappsGridRecommenderConformityTest
 {
     @Test
     @Parameters(method = "getNerServices")
-    public void testNerConformity(LappsGridService aService) throws Exception
-    {
+    public void testNerConformity(LappsGridService aService) throws IOException, UIMAException, RecommendationException {
         CAS cas = loadData();
 
         predict(aService.getUrl(), cas);
@@ -85,10 +85,8 @@ public class LappsGridRecommenderConformityTest
 
     @Test
     @Parameters(method = "getPosServices")
-    public void testPosConformity(LappsGridService aService) throws Exception
-    {
+    public void testPosConformity(LappsGridService aService) throws IOException, UIMAException, RecommendationException {
         CAS cas = loadData();
-
         predict(aService.getUrl(), cas);
 
         SoftAssertions softly = new SoftAssertions();
@@ -102,7 +100,7 @@ public class LappsGridRecommenderConformityTest
         softly.assertAll();
     }
 
-    private void predict(String aUrl, CAS aCas) throws Exception
+    private void predict(String aUrl, CAS aCas) throws RecommendationException
     {
         assumeTrue(isReachable(aUrl));
         
@@ -136,20 +134,19 @@ public class LappsGridRecommenderConformityTest
         return casList.get(0);
     }
 
-    private static List<LappsGridService> getNerServices() throws Exception
+    private static List<LappsGridService> getNerServices() throws IOException
     {
         Map<String, List<LappsGridService>> services = loadPredefinedServicesData();
         return services.get("ner");
     }
 
-    private static List<LappsGridService> getPosServices() throws Exception
+    private static List<LappsGridService> getPosServices() throws IOException
     {
         Map<String, List<LappsGridService>> services = loadPredefinedServicesData();
         return services.get("pos");
     }
 
-    private static Map<String, List<LappsGridService>> loadPredefinedServicesData()
-            throws Exception
+    private static Map<String, List<LappsGridService>> loadPredefinedServicesData() throws IOException
     {
         try (InputStream is = LappsGridRecommenderTraitsEditor
                 .class.getResourceAsStream("services.json")) {

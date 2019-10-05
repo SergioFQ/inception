@@ -88,7 +88,8 @@ public class PDFExtractor
 
     public static String processFileToString(File file, boolean writeGlyphCoords) throws IOException
     {
-        try (StringWriter w = new StringWriter(); PDDocument doc = PDDocument.load(file)) {
+        try (StringWriter w = new StringWriter();
+             PDDocument doc = PDDocument.load(file)) {
 
             for (int i = 0; i < doc.getNumberOfPages(); i++) {
                 PDFExtractor ext = new PDFExtractor(doc.getPage(i), i + 1, w);
