@@ -713,7 +713,7 @@ public class SPARQLQueryBuilderTest
 
     @Test
     public void thatInstanceQueryLimitedToDescendantsDoesNotReturnOutOfScopeResults()
-        throws Exception
+        throws IOException
     {
         importDataFromString(RDFFormat.TURTLE, TURTLE_PREFIX, DATA_CLASS_RDFS_HIERARCHY);
 
