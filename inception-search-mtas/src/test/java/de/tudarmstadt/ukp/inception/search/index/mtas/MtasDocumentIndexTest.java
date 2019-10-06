@@ -22,15 +22,15 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
+import de.tudarmstadt.ukp.inception.search.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasBuilder;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
@@ -84,6 +84,13 @@ import de.tudarmstadt.ukp.clarin.webanno.curation.storage.CurationDocumentServic
 import de.tudarmstadt.ukp.clarin.webanno.curation.storage.CurationDocumentServiceImpl;
 import de.tudarmstadt.ukp.clarin.webanno.model.AnnotationDocument;
 import de.tudarmstadt.ukp.clarin.webanno.model.Project;
+
+
+
+
+
+
+
 import de.tudarmstadt.ukp.clarin.webanno.model.SourceDocument;
 import de.tudarmstadt.ukp.clarin.webanno.project.ProjectServiceImpl;
 import de.tudarmstadt.ukp.clarin.webanno.security.UserDao;
@@ -96,13 +103,6 @@ import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.inception.kb.KnowledgeBaseService;
 import de.tudarmstadt.ukp.inception.kb.KnowledgeBaseServiceImpl;
-import de.tudarmstadt.ukp.inception.search.FeatureIndexingSupport;
-import de.tudarmstadt.ukp.inception.search.FeatureIndexingSupportRegistry;
-import de.tudarmstadt.ukp.inception.search.FeatureIndexingSupportRegistryImpl;
-import de.tudarmstadt.ukp.inception.search.PrimitiveUimaIndexingSupport;
-import de.tudarmstadt.ukp.inception.search.SearchResult;
-import de.tudarmstadt.ukp.inception.search.SearchService;
-import de.tudarmstadt.ukp.inception.search.SearchServiceImpl;
 import de.tudarmstadt.ukp.inception.search.index.PhysicalIndexFactory;
 import de.tudarmstadt.ukp.inception.search.index.PhysicalIndexRegistry;
 import de.tudarmstadt.ukp.inception.search.index.PhysicalIndexRegistryImpl;
@@ -146,15 +146,15 @@ public class MtasDocumentIndexTest
         }
     }
 
-    private void createProject(Project aProject) throws Exception
+    private void createProject(Project aProject) throws IOException 
     {
         projectService.createProject(aProject);
         annotationSchemaService.initializeProject(aProject);
     }
 
     @SafeVarargs
-    private final void uploadDocument(Pair<SourceDocument, String>... aDocuments)
-        throws Exception
+    private final void uploadDocument(Pair<SourceDocument, String>... aDocuments) 
+    		throws IOException, UIMAException   
     {
         Project project = null;
         for (Pair<SourceDocument, String> doc : aDocuments) {
@@ -307,13 +307,17 @@ public class MtasDocumentIndexTest
                 .containsExactly(expectedResult);
     }
     @Test
-    public void testLimitQueryToDocument() throws Exception
+    public void testLimitQueryToDocument() throws IOException, ExecutionException
     {
         Project project = new Project();
         project.setName("TestLimitQueryToDocument");
         project.setMode(WebAnnoConst.PROJECT_TYPE_ANNOTATION);
 
-        createProject(project);
+        try {
+            createProject(project);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         SourceDocument sourceDocument1 = new SourceDocument();
         sourceDocument1.setName("Raw text document 1");
@@ -326,10 +330,14 @@ public class MtasDocumentIndexTest
         sourceDocument2.setProject(project);
         sourceDocument2.setFormat("text");
         String fileContent2 = "The capital of Portugal is Lissabon.";
-        
-        uploadDocument(
-                Pair.of(sourceDocument1, fileContent1),
-                Pair.of(sourceDocument2, fileContent2));
+
+        try {
+            uploadDocument(
+                    Pair.of(sourceDocument1, fileContent1),
+                    Pair.of(sourceDocument2, fileContent2));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         User user = userRepository.get("admin");
 

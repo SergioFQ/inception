@@ -26,17 +26,17 @@ import static org.apache.uima.fit.util.JCasUtil.select;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.dkpro.core.api.datasets.DatasetValidationPolicy.CONTINUE;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
 import org.dkpro.core.api.datasets.Dataset;
 import org.dkpro.core.api.datasets.DatasetFactory;
 import org.dkpro.core.io.conll.Conll2000Reader;
@@ -44,7 +44,6 @@ import org.dkpro.core.io.conll.Conll2002Reader;
 import org.dkpro.core.testing.DkproTestContext;
 import org.junit.Before;
 import org.junit.Test;
-
 import de.tudarmstadt.ukp.clarin.webanno.model.AnnotationFeature;
 import de.tudarmstadt.ukp.clarin.webanno.model.AnnotationLayer;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
@@ -55,6 +54,7 @@ import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.EvaluationResu
 import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.IncrementalSplitter;
 import de.tudarmstadt.ukp.inception.recommendation.api.evaluation.PercentageBasedSplitter;
 import de.tudarmstadt.ukp.inception.recommendation.api.model.Recommender;
+import de.tudarmstadt.ukp.inception.recommendation.api.recommender.RecommendationException;
 import de.tudarmstadt.ukp.inception.recommendation.api.recommender.RecommenderContext;
 
 public class DL4JSequenceRecommenderTest
@@ -85,7 +85,7 @@ public class DL4JSequenceRecommenderTest
     }
 
     @Test
-    public void testExtractDenseLabels() throws Exception
+    public void testExtractDenseLabels() throws ResourceInitializationException, CASException 
     {
         JCas jcas = JCasFactory.createJCas();
         jcas.setDocumentText("a b b c c c abbccc");
@@ -134,7 +134,7 @@ public class DL4JSequenceRecommenderTest
     }
     
     @Test
-    public void testExtractSparseLabels() throws Exception
+    public void testExtractSparseLabels() throws ResourceInitializationException, CASException 
     {
         JCas jcas = JCasFactory.createJCas();
         jcas.setDocumentText("a b b c c c abbccc");
@@ -171,7 +171,7 @@ public class DL4JSequenceRecommenderTest
     }    
     
     @Test
-    public void testExtractLabelsWithBadBoundaries() throws Exception
+    public void testExtractLabelsWithBadBoundaries() throws ResourceInitializationException, CASException 
     {
         JCas jcas = JCasFactory.createJCas();
         jcas.setDocumentText("a b b");
@@ -199,7 +199,7 @@ public class DL4JSequenceRecommenderTest
     }
     
     @Test
-    public void testExtractOverlappingLabelsFails1() throws Exception
+    public void testExtractOverlappingLabelsFails1() throws ResourceInitializationException, CASException 
     {
         JCas jcas = JCasFactory.createJCas();
         jcas.setDocumentText("a b b");
@@ -227,7 +227,7 @@ public class DL4JSequenceRecommenderTest
     }
 
     @Test
-    public void testExtractOverlappingLabelsFails2() throws Exception
+    public void testExtractOverlappingLabelsFails2() throws ResourceInitializationException, CASException 
     {
         JCas jcas = JCasFactory.createJCas();
         jcas.setDocumentText("a b b");
@@ -255,7 +255,7 @@ public class DL4JSequenceRecommenderTest
     }
 
     @Test
-    public void thatPosTrainingWorks() throws Exception
+    public void thatPosTrainingWorks() throws IOException, UIMAException 
     {
         DL4JSequenceRecommender sut = new DL4JSequenceRecommender(buildPosRecommender(), traits,
                 cache);
@@ -269,7 +269,7 @@ public class DL4JSequenceRecommenderTest
     }
 
     @Test
-    public void thatPosPredictionWorks() throws Exception
+    public void thatPosPredictionWorks() throws IOException, UIMAException, RecommendationException 
     {
         DL4JSequenceRecommender sut = new DL4JSequenceRecommender(buildPosRecommender(), traits,
                 cache);
@@ -389,7 +389,7 @@ public class DL4JSequenceRecommenderTest
     }
 
     @Test
-    public void thatIncrementalNerEvaluationWorks() throws Exception
+    public void thatIncrementalNerEvaluationWorks() throws IOException, UIMAException 
     {
         IncrementalSplitter splitStrategy = new IncrementalSplitter(0.8, 50, 10);
         DL4JSequenceRecommender sut = new DL4JSequenceRecommender(buildNerRecommender(), traits,
