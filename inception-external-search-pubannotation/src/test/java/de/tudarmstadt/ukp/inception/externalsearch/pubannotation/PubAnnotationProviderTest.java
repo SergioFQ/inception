@@ -28,6 +28,7 @@ import de.tudarmstadt.ukp.inception.externalsearch.ExternalSearchResult;
 import de.tudarmstadt.ukp.inception.externalsearch.model.DocumentRepository;
 import de.tudarmstadt.ukp.inception.externalsearch.pubannotation.model.PubAnnotationDocumentHandle;
 import de.tudarmstadt.ukp.inception.externalsearch.pubannotation.traits.PubAnnotationProviderTraits;
+import org.springframework.web.client.RestClientException;
 
 public class PubAnnotationProviderTest
 {
@@ -56,7 +57,7 @@ public class PubAnnotationProviderTest
     }
 
     @Test
-    public void thatExecuteQueryWorks() throws Exception
+    public void thatExecuteQueryWorks() throws RestClientException
     {
         List<ExternalSearchResult> results = sut.executeQuery(repo, traits, "binding");
         
