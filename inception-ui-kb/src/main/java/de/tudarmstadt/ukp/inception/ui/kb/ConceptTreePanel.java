@@ -127,13 +127,32 @@ public class ConceptTreePanel extends Panel {
         addLink.add(new Label("label", new ResourceModel("concept.list.add")));
         addLink.add(new WriteProtectionBehavior(kbModel));
         add(addLink);
+        add(new LambdaAjaxLink("autoCreateLabel", this::autoCreateLabel));
 
         Form<Preferences> form = new Form<>("form", CompoundPropertyModel.of(preferences));
         form.add(new CheckBox("showAllConcepts").add(
                 new LambdaAjaxFormSubmittingBehavior("change", this::actionPreferenceChanged)));
         add(form);
     }
-    
+
+    /**
+     * add button to add missing labels to an ontology
+     */
+    protected void autoCreateLabel(AjaxRequestTarget aTarget) throws Exception {
+        List<KBHandle> list = kbService.listAllConcepts(kbModel.getObject(), true);
+        //go through each resource in the KB
+        for(KBHandle kbh : list) {
+            String label = kbh.getUiLabel();
+            //get human-readable label
+            if(label.equals(kbh.getIdentifier())) {
+                Label la = new Label(label);
+                aTarget.add(la);
+            }
+        }
+
+    }
+
+
     private void actionSelectionChanged(AjaxRequestTarget aTarget) {
         // if the selection changes, publish an event denoting the change
         AjaxConceptSelectionEvent e = new AjaxConceptSelectionEvent(aTarget,
